@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seu Nome | Back-end, MySQL & Área Administrativa</title>
+  
+  <!-- Fonte corporativa e moderna: Inter e Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Biblioteca de Símbolos/Ícones oficiais das linguagens (Devicon) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  
+  <!-- Biblioteca de Ícones para Redes Sociais (Font Awesome) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Fundo estilo IDE / Programação moderno com grade cibernética sutil */
+    .bg-dev-grid {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(37, 99, 235, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(37, 99, 235, 0.06) 1px, transparent 1px);
+    }
+    .dark .bg-dev-grid {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(59, 130, 246, 0.09) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(59, 130, 246, 0.09) 1px, transparent 1px);
+    }
+
+    /* Animação suave de flutuação para os painéis de código no fundo */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-float-slow {
+      animation: floatSlow 8s ease-in-out infinite;
+    }
+    .animate-float-delayed {
+      animation: floatSlow 10s ease-in-out 2s infinite;
+    }
+  </style>
+</head>
+<body class="relative bg-slate-50 dark:bg-[#070b14] text-slate-800 dark:text-slate-100 bg-dev-grid antialiased selection:bg-blue-700 selection:text-white transition-colors duration-300 overflow-x-hidden">
+
+  <!-- =====================================================================
+       PLANO DE FUNDO ESTILO PROGRAMAÇÃO / IDE (SUTIL E SOFISTICADO)
+       Combina iluminação radial e janelas translúcidas de SQL e Back-end.
+       ===================================================================== -->
+  <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden select-none">
+    <!-- Luzes radiais decorativas -->
+    <div class="absolute -top-32 left-1/4 w-[38rem] h-[26rem] rounded-full bg-blue-500/15 dark:bg-blue-600/20 blur-3xl"></div>
+    <div class="absolute top-1/2 -right-24 w-[32rem] h-[32rem] rounded-full bg-indigo-500/10 dark:bg-indigo-600/15 blur-3xl"></div>
+    <div class="absolute -bottom-24 left-10 w-[30rem] h-[24rem] rounded-full bg-sky-400/10 dark:bg-cyan-500/10 blur-3xl"></div>
+
+    <!-- Janela de Terminal / SQL Flutuante (Superior Esquerdo) -->
+    <div class="hidden xl:block absolute top-24 left-8 w-80 rounded-xl border border-slate-300/40 dark:border-blue-500/15 bg-white/40 dark:bg-slate-900/40 backdrop-blur-[2px] p-3.5 shadow-sm animate-float-slow opacity-75 dark:opacity-65">
+      <div class="flex items-center gap-1.5 mb-2.5 pb-2 border-b border-slate-200/50 dark:border-slate-800/70">
+        <span class="w-2.5 h-2.5 rounded-full bg-rose-400/70"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-400/70"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></span>
+        <span class="ml-2 font-mono text-[10px] text-slate-500 dark:text-slate-400">consulta_gestao.sql</span>
+      </div>
+      <pre class="font-mono text-[11px] leading-relaxed text-slate-700/80 dark:text-blue-300/80"><span class="text-blue-600 dark:text-blue-400 font-semibold">SELECT</span> setor, indicador, status
+<span class="text-blue-600 dark:text-blue-400 font-semibold">FROM</span> controle_administrativo
+<span class="text-blue-600 dark:text-blue-400 font-semibold">WHERE</span> eficiencia &gt;= <span class="text-emerald-600 dark:text-emerald-400">95.0</span>
+<span class="text-blue-600 dark:text-blue-400 font-semibold">ORDER BY</span> data_registro <span class="text-blue-600 dark:text-blue-400 font-semibold">DESC</span>;</pre>
+    </div>
+
+    <!-- Janela de Código Back-end Flutuante (Inferior Direito) -->
+    <div class="hidden xl:block absolute bottom-20 right-8 w-80 rounded-xl border border-slate-300/40 dark:border-indigo-500/15 bg-white/40 dark:bg-slate-900/40 backdrop-blur-[2px] p-3.5 shadow-sm animate-float-delayed opacity-75 dark:opacity-65">
+      <div class="flex items-center gap-1.5 mb-2.5 pb-2 border-b border-slate-200/50 dark:border-slate-800/70">
+        <span class="w-2.5 h-2.5 rounded-full bg-rose-400/70"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-400/70"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></span>
+        <span class="ml-2 font-mono text-[10px] text-slate-500 dark:text-slate-400">processos.js</span>
+      </div>
+      <pre class="font-mono text-[11px] leading-relaxed text-slate-700/80 dark:text-indigo-300/80"><span class="text-indigo-600 dark:text-indigo-400 font-semibold">const</span> organizarDados = (lista) =&gt; {
+  <span class="text-indigo-600 dark:text-indigo-400 font-semibold">return</span> lista.filter(p =&gt; p.ativo)
+              .map(p =&gt; p.relatorio);
+};</pre>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       1. BARRA SUPERIOR COM ABAS DE NAVEGAÇÃO PARA CADA LOCAL
+       Dica: Troque "Seu Nome" pelo seu nome completo.
+       ===================================================================== -->
+  <header class="fixed top-0 inset-x-0 z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 transition-colors">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
+      
+      <!-- Identificação / Logo -->
+      <a href="#sobre" class="font-display font-bold text-slate-900 dark:text-white text-base sm:text-lg tracking-tight flex items-center gap-2 shrink-0">
+        <span class="w-2.5 h-2.5 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse"></span>
+        <span>Seu Nome</span>
+      </a>
+
+      <!-- Abas de Navegação (Desktop & Tablet) -->
+      <nav aria-label="Abas de navegação" class="hidden md:flex items-center p-1 rounded-2xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700/70">
+        <a href="#sobre" data-nav="sobre"
+           class="nav-tab px-4 py-1.5 rounded-xl text-xs font-semibold transition-all bg-white dark:bg-slate-900 text-blue-700 dark:text-blue-400 shadow-sm">
+          <i class="fa-solid fa-user mr-1.5 text-[11px]"></i>Sobre Mim
+        </a>
+        <a href="#tecnologias" data-nav="tecnologias"
+           class="nav-tab px-4 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">
+          <i class="fa-solid fa-code mr-1.5 text-[11px]"></i>Tecnologias
+        </a>
+        <a href="#projetos" data-nav="projetos"
+           class="nav-tab px-4 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">
+          <i class="fa-solid fa-folder-open mr-1.5 text-[11px]"></i>Projetos
+        </a>
+        <a href="#contato" data-nav="contato"
+           class="nav-tab px-4 py-1.5 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">
+          <i class="fa-solid fa-paper-plane mr-1.5 text-[11px]"></i>Contato
+        </a>
+      </nav>
+
+      <!-- Controles Direitos: Tema Claro/Escuro + Menu Celular -->
+      <div class="flex items-center gap-2">
+        <button id="theme-toggle" type="button" aria-label="Alternar tema"
+                class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-blue-600 transition-colors">
+          <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
+        </button>
+
+        <button id="mobile-menu-btn" type="button" aria-label="Abrir abas de navegação"
+                class="md:hidden p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-blue-600 transition-colors">
+          <i id="mobile-menu-icon" class="fa-solid fa-bars text-sm"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Abas de Navegação Responsivas (Celular) -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-4 py-3">
+      <div class="grid grid-cols-2 gap-2">
+        <a href="#sobre" class="mobile-nav-link flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-800 dark:text-slate-100 hover:bg-blue-600 hover:text-white transition-colors">
+          <i class="fa-solid fa-user"></i> Sobre Mim
+        </a>
+        <a href="#tecnologias" class="mobile-nav-link flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-800 dark:text-slate-100 hover:bg-blue-600 hover:text-white transition-colors">
+          <i class="fa-solid fa-code"></i> Tecnologias
+        </a>
+        <a href="#projetos" class="mobile-nav-link flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-800 dark:text-slate-100 hover:bg-blue-600 hover:text-white transition-colors">
+          <i class="fa-solid fa-folder-open"></i> Projetos
+        </a>
+        <a href="#contato" class="mobile-nav-link flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-800 dark:text-slate-100 hover:bg-blue-600 hover:text-white transition-colors">
+          <i class="fa-solid fa-paper-plane"></i> Contato
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-24 sm:pt-28 pb-20">
+
+    <!-- =====================================================================
+         2. SEÇÃO DE ENTRADA PROFISSIONAL (SOBRE MIM & SUA FOTO)
+         ===================================================================== -->
+    <section id="sobre" class="scroll-mt-24 max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-16 border-b border-slate-200/80 dark:border-slate-800">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        
+        <!-- Coluna da Esquerda: Apresentação Profissional -->
+        <div class="lg:col-span-7 space-y-6 order-2 lg:order-1">
+          
+          <!-- Selo Acadêmico -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50/90 dark:bg-blue-950/80 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-300 text-xs font-semibold shadow-sm">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>Sistemas de Informação • 2º Período (UNIPAM)</span>
+          </div>
+
+          <!-- Título Principal -->
+          <h1 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-[2.65rem] text-slate-900 dark:text-white tracking-tight leading-tight">
+            Desenvolvedor MySQL &amp; Back-end com foco em <span class="text-blue-700 dark:text-blue-400">Gestão Administrativa</span>
+          </h1>
+
+          <!-- Texto Sobre Você -->
+          <div class="space-y-4 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
+            <p>
+              Olá! Sou aluno do <strong class="text-slate-900 dark:text-white">2º período de Sistemas de Informação na UNIPAM</strong>, com experiência prática e base analítica em desenvolvimento back-end e estruturação de bancos de dados relacionais com <strong class="text-slate-900 dark:text-white">MySQL</strong>.
+            </p>
+            <p>
+              Atualmente, busco direcionar minha trajetória para a <strong class="text-slate-900 dark:text-white">área administrativa</strong>, unindo o raciocínio lógico, a organização de dados e o domínio de ferramentas tecnológicas para otimizar rotinas, controlar informações e apoiar decisões estratégicas.
+            </p>
+          </div>
+
+          <!-- Botões de Ação -->
+          <div class="pt-2 flex flex-wrap items-center gap-3.5">
+            <a href="#projetos" 
+               class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold transition-all shadow-md shadow-blue-700/20">
+              <span>Ver Projetos</span>
+              <i class="fa-solid fa-arrow-down text-xs"></i>
+            </a>
+
+            <a href="#contato" 
+               class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/90 dark:bg-slate-900/90 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-300 dark:border-slate-700 text-sm font-semibold transition-colors">
+              <span>Entrar em Contato</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Coluna da Direita: Sua Foto em Destaque -->
+        <div class="lg:col-span-5 flex justify-center lg:justify-end order-1 lg:order-2">
+          <div class="relative w-64 sm:w-72 md:w-80">
+            <!-- Borda luminosa sutil atrás da foto -->
+            <div class="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-blue-500/25 via-indigo-500/15 to-sky-400/25 dark:from-blue-500/30 dark:via-indigo-500/20 dark:to-cyan-500/25 blur-sm -z-10"></div>
+            
+            <!-- Moldura da Foto -->
+            <div class="aspect-[4/5] w-full rounded-2xl overflow-hidden bg-slate-200 dark:bg-slate-800 border-4 border-white dark:border-slate-800 shadow-xl">
+              <img 
+                src="WhatsApp Image 2026-11-12 at 10.02.00.jpeg" 
+                alt="Minha Foto Profissional" 
+                class="w-full h-full object-cover object-top"
+                onerror="this.onerror=null; this.src='https://placehold.co/480x600/1e293b/f8fafc?text=Minha+Foto';"
+              />
+            </div>
+
+            <!-- Badge de Status -->
+            <div class="mt-3 px-4 py-2.5 rounded-xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between text-xs">
+              <span class="font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Aberto a oportunidades
+              </span>
+              <span class="text-blue-700 dark:text-blue-400 font-bold">UNIPAM</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         3. TECNOLOGIAS & CONHECIMENTOS (SEM PHP E SEM GITHUB)
+         ===================================================================== -->
+    <section id="tecnologias" class="scroll-mt-24 max-w-5xl mx-auto px-4 sm:px-6 py-16 border-b border-slate-200/80 dark:border-slate-800">
+      <div class="mb-10">
+        <span class="text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400">Competências</span>
+        <h2 class="font-display font-bold text-2xl text-slate-900 dark:text-white mt-1">Conhecimentos &amp; Tecnologias</h2>
+        <p class="text-slate-600 dark:text-slate-300 text-sm mt-1">Tecnologias que já domino na prática e linguagens que estou aprofundando continuamente.</p>
+      </div>
+
+      <!-- Grade de Tecnologias com Símbolos (Devicon) -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        
+        <!-- Card 1: MySQL (Domínio Principal) -->
+        <div class="p-5 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 hover:border-blue-600 dark:hover:border-blue-500 transition-all flex flex-col items-center text-center gap-3 shadow-sm">
+          <i class="devicon-mysql-plain colored text-4xl"></i>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm">MySQL</h3>
+            <span class="inline-block mt-1 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300">Domínio • Banco de Dados</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Python -->
+        <div class="p-5 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 hover:border-blue-600 dark:hover:border-blue-500 transition-all flex flex-col items-center text-center gap-3 shadow-sm">
+          <i class="devicon-python-plain colored text-4xl"></i>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm">Python</h3>
+            <span class="inline-block mt-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Aprofundando • Dados</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Java -->
+        <div class="p-5 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 hover:border-blue-600 dark:hover:border-blue-500 transition-all flex flex-col items-center text-center gap-3 shadow-sm">
+          <i class="devicon-java-plain colored text-4xl"></i>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm">Java</h3>
+            <span class="inline-block mt-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Aprofundando • Back-end</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Linguagem C -->
+        <div class="p-5 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 hover:border-blue-600 dark:hover:border-blue-500 transition-all flex flex-col items-center text-center gap-3 shadow-sm">
+          <i class="devicon-c-plain colored text-4xl"></i>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm">Linguagem C</h3>
+            <span class="inline-block mt-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Conhecimento • Lógica</span>
+          </div>
+        </div>
+
+        <!-- Card 5: HTML5 -->
+        <div class="p-5 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 hover:border-blue-600 dark:hover:border-blue-500 transition-all flex flex-col items-center text-center gap-3 shadow-sm">
+          <i class="devicon-html5-plain colored text-4xl"></i>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm">HTML5</h3>
+            <span class="inline-block mt-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Conhecimento • Web</span>
+          </div>
+        </div>
+
+        <!-- Card 6: JavaScript -->
+        <div class="p-5 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 hover:border-blue-600 dark:hover:border-blue-500 transition-all flex flex-col items-center text-center gap-3 shadow-sm">
+          <i class="devicon-javascript-plain colored text-4xl"></i>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm">JavaScript</h3>
+            <span class="inline-block mt-1 px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">Aprofundando • Web</span>
+          </div>
+        </div>
+
+        <!-- Card 7: Gestão & Dados Administrativos -->
+        <div class="p-5 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 hover:border-blue-600 dark:hover:border-blue-500 transition-all flex flex-col items-center text-center gap-3 shadow-sm col-span-2 sm:col-span-1">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-400 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-chart-pie"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm">Gestão &amp; Dados</h3>
+            <span class="inline-block mt-1 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300">Área Administrativa</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         4. PROJETOS NA PARTE INFERIOR (COM IMAGEM E LINK PERSONALIZÁVEL)
+         COMO ADICIONAR OU EDITAR PROJETOS:
+         1. Troque href="#" pelo link do seu projeto, documento ou pasta online.
+         2. Troque src="projeto1.png" pelo nome da imagem do seu projeto.
+         ===================================================================== -->
+    <section id="projetos" class="scroll-mt-24 max-w-5xl mx-auto px-4 sm:px-6 py-16 border-b border-slate-200/80 dark:border-slate-800">
+      <div class="mb-10">
+        <span class="text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400">Portfólio</span>
+        <h2 class="font-display font-bold text-2xl text-slate-900 dark:text-white mt-1">Meus Projetos</h2>
+        <p class="text-slate-600 dark:text-slate-300 text-sm mt-1">Conheça alguns dos sistemas e soluções que desenvolvi na área de dados e organização administrativa.</p>
+      </div>
+
+      <!-- Grade de Projetos -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- ================= PROJETO 1 ================= -->
+        <a href="#" target="_blank" rel="noopener noreferrer"
+           class="group flex flex-col overflow-hidden rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 hover:border-blue-600 dark:hover:border-blue-500 hover:shadow-lg transition-all">
+          
+          <!-- Espaço para a Imagem do Projeto -->
+          <div class="w-full h-44 bg-slate-100 dark:bg-slate-800 overflow-hidden border-b border-slate-100 dark:border-slate-800">
+            <img 
+              src="projeto1.png" 
+              alt="Imagem do Projeto Controle Administrativo & Estoque"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              onerror="this.onerror=null; this.src='https://placehold.co/640x360/e2e8f0/1e293b?text=Imagem+do+Projeto+1';"
+            />
+          </div>
+
+          <!-- Conteúdo do Card (Título, Descrição e Link) -->
+          <div class="flex flex-col flex-1 justify-between p-6">
+            <div>
+              <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors">
+                Controle Administrativo &amp; Estoque
+              </h3>
+
+              <p class="text-slate-600 dark:text-slate-300 text-sm mt-2 leading-relaxed">
+                Modelagem relacional e consultas para cadastro de produtos, movimentação de entradas/saídas e relatórios gerenciais.
+              </p>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center text-sm font-semibold text-blue-700 dark:text-blue-400 group-hover:text-blue-800 dark:group-hover:text-blue-300">
+              <span>Acessar projeto</span>
+              <span class="ml-1.5 group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- ================= PROJETO 2 ================= -->
+        <a href="#" target="_blank" rel="noopener noreferrer"
+           class="group flex flex-col overflow-hidden rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 hover:border-blue-600 dark:hover:border-blue-500 hover:shadow-lg transition-all">
+          
+          <!-- Espaço para a Imagem do Projeto -->
+          <div class="w-full h-44 bg-slate-100 dark:bg-slate-800 overflow-hidden border-b border-slate-100 dark:border-slate-800">
+            <img 
+              src="projeto2.png" 
+              alt="Imagem do Projeto Automação de Rotinas & Dados"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              onerror="this.onerror=null; this.src='https://placehold.co/640x360/e2e8f0/1e293b?text=Imagem+do+Projeto+2';"
+            />
+          </div>
+
+          <!-- Conteúdo do Card -->
+          <div class="flex flex-col flex-1 justify-between p-6">
+            <div>
+              <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors">
+                Automação de Rotinas &amp; Dados
+              </h3>
+
+              <p class="text-slate-600 dark:text-slate-300 text-sm mt-2 leading-relaxed">
+                Scripts integrados ao banco de dados para organizar registros, validar informações e gerar planilhas administrativas.
+              </p>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center text-sm font-semibold text-blue-700 dark:text-blue-400 group-hover:text-blue-800 dark:group-hover:text-blue-300">
+              <span>Acessar projeto</span>
+              <span class="ml-1.5 group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- ================= PROJETO 3 ================= -->
+        <a href="#" target="_blank" rel="noopener noreferrer"
+           class="group flex flex-col overflow-hidden rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 hover:border-blue-600 dark:hover:border-blue-500 hover:shadow-lg transition-all">
+          
+          <!-- Espaço para a Imagem do Projeto -->
+          <div class="w-full h-44 bg-slate-100 dark:bg-slate-800 overflow-hidden border-b border-slate-100 dark:border-slate-800">
+            <img 
+              src="projeto3.png" 
+              alt="Imagem do Projeto Sistema Web de Cadastro"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              onerror="this.onerror=null; this.src='https://placehold.co/640x360/e2e8f0/1e293b?text=Imagem+do+Projeto+3';"
+            />
+          </div>
+
+          <!-- Conteúdo do Card -->
+          <div class="flex flex-col flex-1 justify-between p-6">
+            <div>
+              <h3 class="font-display font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors">
+                Sistema Web de Cadastro
+              </h3>
+
+              <p class="text-slate-600 dark:text-slate-300 text-sm mt-2 leading-relaxed">
+                Aplicação desenvolvida durante a graduação na UNIPAM para registro de clientes e controle interno de informações.
+              </p>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center text-sm font-semibold text-blue-700 dark:text-blue-400 group-hover:text-blue-800 dark:group-hover:text-blue-300">
+              <span>Acessar projeto</span>
+              <span class="ml-1.5 group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- PARA ADICIONAR UM NOVO PROJETO: Copie um bloco <a> acima e cole aqui! -->
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         5. CONTATO & REDES SOCIAIS DIRETAS (WHATSAPP, LINKEDIN E INSTAGRAM)
+         Dica: Troque os links "href" abaixo pelos seus links reais!
+         ===================================================================== -->
+    <section id="contato" class="scroll-mt-24 max-w-5xl mx-auto px-4 sm:px-6 pt-16">
+      <div class="rounded-3xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 p-8 sm:p-10 shadow-sm">
+        <div class="max-w-2xl mb-8">
+          <span class="text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400">Contato</span>
+          <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-900 dark:text-white mt-1">
+            Conecte-se comigo
+          </h2>
+          <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-2">
+            Clique em qualquer uma das opções abaixo para falar comigo diretamente ou acompanhar minha trajetória profissional.
+          </p>
+        </div>
+
+        <!-- Botões Diretos para as Redes Sociais (WhatsApp, LinkedIn e Instagram) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          
+          <!-- 1. WHATSAPP (Troque 5534999999999 pelo seu DDD + número) -->
+          <a href="https://wa.me/5534999999999?text=Ol%C3%A1!%20Vi%20seu%20portf%C3%B3lio%20e%20gostaria%20de%20conversar." 
+             target="_blank" rel="noopener noreferrer"
+             class="flex items-center gap-3.5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/30 transition-all group">
+            <div class="w-11 h-11 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-xl group-hover:scale-105 transition-transform">
+              <i class="fa-brands fa-whatsapp"></i>
+            </div>
+            <div>
+              <p class="font-bold text-slate-900 dark:text-white text-sm">WhatsApp</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Mensagem direta</p>
+            </div>
+          </a>
+
+          <!-- 2. LINKEDIN (Troque SEU-USUARIO pelo seu perfil do LinkedIn) -->
+          <a href="https://www.linkedin.com/in/SEU-USUARIO" 
+             target="_blank" rel="noopener noreferrer"
+             class="flex items-center gap-3.5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-600 hover:bg-blue-50/50 dark:hover:bg-blue-950/30 transition-all group">
+            <div class="w-11 h-11 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-400 flex items-center justify-center text-xl group-hover:scale-105 transition-transform">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </div>
+            <div>
+              <p class="font-bold text-slate-900 dark:text-white text-sm">LinkedIn</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Perfil profissional</p>
+            </div>
+          </a>
+
+          <!-- 3. INSTAGRAM (Troque SEU-USUARIO pelo seu @ do Instagram) -->
+          <a href="https://www.instagram.com/SEU-USUARIO" 
+             target="_blank" rel="noopener noreferrer"
+             class="flex items-center gap-3.5 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-pink-500 hover:bg-pink-50/50 dark:hover:bg-pink-950/30 transition-all group">
+            <div class="w-11 h-11 rounded-xl bg-pink-100 dark:bg-pink-950 text-pink-600 dark:text-pink-400 flex items-center justify-center text-xl group-hover:scale-105 transition-transform">
+              <i class="fa-brands fa-instagram"></i>
+            </div>
+            <div>
+              <p class="font-bold text-slate-900 dark:text-white text-sm">Instagram</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Acompanhe meu dia a dia</p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 py-6 text-center text-xs text-slate-500 dark:text-slate-400">
+    <p>© <span id="year"></span> Seu Nome • Sistemas de Informação — UNIPAM</p>
+  </footer>
+
+  <script>
+    // Atualiza o ano automaticamente no rodapé
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Controle de tema claro / escuro
+    const htmlEl = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        htmlEl.classList.add('dark');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      } else {
+        htmlEl.classList.remove('dark');
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      }
+    }
+
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    if (savedTheme) {
+      applyTheme(savedTheme);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const isDark = htmlEl.classList.contains('dark');
+      const nextTheme = isDark ? 'light' : 'dark';
+      localStorage.setItem('portfolio-theme', nextTheme);
+      applyTheme(nextTheme);
+    });
+
+    // Menu mobile (abrir/fechar abas no celular)
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      const isHidden = mobileMenu.classList.toggle('hidden');
+      mobileMenuIcon.classList.toggle('fa-bars', isHidden);
+      mobileMenuIcon.classList.toggle('fa-xmark', !isHidden);
+    });
+
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        mobileMenuIcon.classList.add('fa-bars');
+        mobileMenuIcon.classList.remove('fa-xmark');
+      });
+    });
+
+    // Destaque automático da aba ativa conforme a rolagem da página
+    const sections = document.querySelectorAll('section[id]');
+    const navTabs = document.querySelectorAll('.nav-tab');
+
+    function updateActiveTab() {
+      let currentId = 'sobre';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 140;
+        if (window.scrollY >= sectionTop) {
+          currentId = section.getAttribute('id');
+        }
+      });
+
+      navTabs.forEach(tab => {
+        const isActive = tab.getAttribute('data-nav') === currentId;
+        if (isActive) {
+          tab.classList.add('bg-white', 'dark:bg-slate-900', 'text-blue-700', 'dark:text-blue-400', 'shadow-sm');
+          tab.classList.remove('text-slate-600', 'dark:text-slate-300');
+        } else {
+          tab.classList.remove('bg-white', 'dark:bg-slate-900', 'text-blue-700', 'dark:text-blue-400', 'shadow-sm');
+          tab.classList.add('text-slate-600', 'dark:text-slate-300');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveTab, { passive: true });
+    updateActiveTab();
+  </script>
+</body>
+</html>
